@@ -177,11 +177,15 @@
 ;;------------------------------ 4 Execution ------------------------------
 
 (define (get-random-word word-list)
+  ; Returns a word picked uniformly at random from the list.
+  ; string list -> string
   (let ((index (random (length word-list))))
     (list-ref word-list index)))
 
 (define (count-unique-chars word)
   ; Returns the number of unique characters in a string
+  ; (used to scale the number of allowed errors to the word's difficulty).
+  ; string -> integer
   (let ((char-list (string->list word)))
     (letrec ((unique-helper (lambda (lst seen)
                               (cond ((null? lst) 0)
@@ -190,6 +194,9 @@
       (unique-helper char-list '()))))
 
 (define (start-game)
+  ; Entry point: picks a word, sets the error limit, runs one game,
+  ; then offers to play again. Call (start-game) in the interactions window.
+  ; -> Display
   (begin
     (let* ((word (get-random-word words))
            (unique-count (count-unique-chars word))
